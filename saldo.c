@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 // Function to print help text when --help option is detected
 void print_help_text() {
@@ -10,14 +11,16 @@ void print_help_text() {
 	printf("--help|-h: Displays the help text.\n");
 	printf("--edit|-e [day] [expense]: Edits the expenses for the specified day.\n");
 	printf("--add|-a [day] [expense]: Adds the specified expense to the existing expense for the specified day.\n");
-	printf("If the configuration file is not found, the program will generate one. The configuration file contains the income, fixed expenses and expenses for each day of the month. The program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month). The daily budget and the saldo for each day will be displayed.\n");
+	printf("If the configuration file is not found, the program will generate one in ~/.local/share/saldo_config.txt.\nThe configuration file contains the income, fixed expenses and expenses for each day of the month.\nThe program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month).\nThe daily budget and the saldo for each day will be displayed.\n");
 	exit(0);
 }
 
 int main(int argc, char *argv[]) {             
 	double income, fixedExpenses, totalBudget, dailyBudget, expenses, saldo; 
 	int month, day, daysInMonth;
-	FILE *configFile = fopen("config.txt", "r+"); // Read and write
+	char configFilePath[256];
+	sprintf(configFilePath, "%s/.local/share/saldo_config.txt", getenv("HOME"));
+	FILE *configFile = fopen(configFilePath, "r+"); // Read and write
 
 	// Print help text if --help option is detected
 	if (argc > 1 && (strcmp(argv[1],"--help") == 0 || strcmp(argv[1],"-h") == 0)) {
@@ -31,7 +34,9 @@ int main(int argc, char *argv[]) {
 		double editExpense = atof(argv[3]);
 
 		// Create a new file
-		FILE *newConfigFile = fopen("newConfig.txt", "w");
+		char newConfigFilePath[256];
+		sprintf(newConfigFilePath, "%s/.local/share/saldotmpconfig.txt", getenv("HOME"));
+		FILE *newConfigFile = fopen(newConfigFilePath, "w");
 
 		// Find the line
 		char line[100];
@@ -48,7 +53,7 @@ int main(int argc, char *argv[]) {
 		fclose(newConfigFile);
 
 		// Rename the new file
-		rename("newConfig.txt", "config.txt");
+		rename(newConfigFilePath, configFilePath);
 
 		exit(0);
 	}
@@ -59,7 +64,9 @@ int main(int argc, char *argv[]) {
 		double addExpense = atof(argv[3]);
 
 		// Create a new file
-		FILE *newConfigFile = fopen("newConfig.txt", "w");
+		char newConfigFilePath[256];
+		sprintf(newConfigFilePath, "%s/.local/share/saldotmpconfig.txt", getenv("HOME"));
+		FILE *newConfigFile = fopen(newConfigFilePath, "w");
 
 		// Find the line
 		char line[100];
@@ -79,7 +86,7 @@ int main(int argc, char *argv[]) {
 		fclose(newConfigFile);
 
 		// Rename the new file
-		rename("newConfig.txt", "config.txt");
+		rename(newConfigFilePath, configFilePath);
 
 		exit(0);
 	}
@@ -103,7 +110,7 @@ int main(int argc, char *argv[]) {
 	// Check if the configuration file exists and generate it if not
 	if (!configFile) {
 		printf("No config file found. Generating one now...\nDon't forget to edit it\n");
-		FILE *configFile = fopen("config.txt", "w");
+		FILE *configFile = fopen(configFilePath, "w");
 		fprintf(configFile, "income 0\nfixed_expenses 0\n");
 		for (int i = 1; i <= daysInMonth; i++) {
 			fprintf(configFile, "%d 0\n", i);
@@ -111,7 +118,6 @@ int main(int argc, char *argv[]) {
 		fclose(configFile);
 		exit(0);
 	}
-
 	// Read income and fixed expenses from the configuration file
 	fscanf(configFile, "income %lf\nfixed_expenses %lf\n", &income, &fixedExpenses);
 	totalBudget = income - fixedExpenses;
@@ -133,3 +139,4 @@ int main(int argc, char *argv[]) {
 	fclose(configFile);
 	return 0;
 }
+
