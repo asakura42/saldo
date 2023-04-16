@@ -279,7 +279,6 @@ int main(int argc, char *argv[])
 	// Calculate the saldo for each day and print the result
 	for (day = 1; day <= daysInMonth; day++)
 	{
-
 		if (fscanf(configFile, "%d %lf\n", &day, &expenses) != EOF)
 		{
 			saldo += dailyBudget - expenses;
