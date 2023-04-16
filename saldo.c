@@ -9,6 +9,7 @@ void print_help_text() {
 	printf("This program calculates the current saldo for a given month by reading expenses from a configuration file.\n");
 	printf("Usage: saldo [--help|-h] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config]\n");
 	printf("--help|-h: Displays the help text.\n");
+	printf("--edit-config|-c: Edit config manually using neovim, vim or nano.\n");
 	printf("--edit|-e [day] [expense]: Edits the expenses for the specified day.\n");
 	printf("--add|-a [day] [expense]: Adds the specified expense to the existing expense for the specified day.\n");
 	printf("--new-config|--rebuild-config: rebuilds config (for example, after starting next month). Be careful!\n");
@@ -51,6 +52,29 @@ int main(int argc, char *argv[]) {
 			fprintf(configFile, "%d 0\n", i);
 		}
 		fclose(configFile);
+		exit(0);
+	}
+
+// Add option to open neovim to edit config
+	if (argc > 1 && (strcmp(argv[1], "--edit-config") == 0 || strcmp(argv[1],"-c") == 0)) {
+		// Check if neovim exists
+		if (system("which nvim") == 0) {
+			char command[256];
+			sprintf(command, "nvim %s", configFilePath);
+			system(command);
+		}
+		// Check if vim exists
+		else if (system("which vim") == 0) {
+			char command[256];
+			sprintf(command, "vim %s", configFilePath);
+			system(command);
+		}
+		// Check if nano exists
+		else if (system("which nano") == 0) {
+			char command[256];
+			sprintf(command, "nano %s", configFilePath);
+			system(command);
+		}
 		exit(0);
 	}
 
