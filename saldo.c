@@ -7,12 +7,12 @@
 // Function to print help text when --help option is detected
 void print_help_text() {
 	printf("This program calculates the current saldo for a given month by reading expenses from a configuration file.\n");
-	printf("Usage: saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config]\n");
+	printf("Usage: saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config [income] [expenses]]\n");
 	printf("--help|-h: Displays the help text.\n");
 	printf("--edit-config|-c: Edit config manually using neovim, vim or nano.\n");
 	printf("--edit|-e [day] [expense]: Edits the expenses for the specified day.\n");
 	printf("--add|-a [day] [expense]: Adds the specified expense to the existing expense for the specified day.\n");
-	printf("--new-config|--rebuild-config: rebuilds config (for example, after starting next month). Be careful!\n");
+	printf("--new-config|--rebuild-config [income] [expenses] (optionally): rebuilds config (for example, after starting next month). Be careful!\n");
 	printf("If the configuration file is not found, the program will generate one in ~/.local/share/saldo_config.txt.\nThe configuration file contains the income, fixed expenses and expenses for each day of the month.\nThe program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month).\nThe daily budget and the saldo for each day will be displayed.\n");
 	exit(0);
 }
@@ -44,6 +44,17 @@ int main(int argc, char *argv[]) {
 		print_help_text();
 	}
 
+	if (argc > 3 && (strcmp(argv[1],"--new-config") == 0 || strcmp(argv[1],"--rebuild-config") == 0)) {
+		printf("Rebuilding config...\nDon't forget to edit it\n");
+		FILE *configFile = fopen(configFilePath, "w");
+		fprintf(configFile, "income %s\nfixed_expenses %s\n",argv[2], argv[3]);
+		for (int i = 1; i <= daysInMonth; i++) {
+			fprintf(configFile, "%d 0\n", i);
+		}
+		fclose(configFile);
+		exit(0);
+	}
+
 	if (argc > 1 && (strcmp(argv[1],"--new-config") == 0 || strcmp(argv[1],"--rebuild-config") == 0)) {
 		printf("Rebuilding config...\nDon't forget to edit it\n");
 		FILE *configFile = fopen(configFilePath, "w");
@@ -55,7 +66,7 @@ int main(int argc, char *argv[]) {
 		exit(0);
 	}
 
-// Add option to open neovim to edit config
+	// Add option to open neovim to edit config
 	if (argc > 1 && (strcmp(argv[1], "--edit-config") == 0 || strcmp(argv[1],"-c") == 0)) {
 		// Check if neovim exists
 		if (system("which nvim") == 0) {
