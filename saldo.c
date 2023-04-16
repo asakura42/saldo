@@ -7,12 +7,14 @@
 // Function to print help text when --help option is detected
 void print_help_text() {
 	printf("This program calculates the current saldo for a given month by reading expenses from a configuration file.\n");
-	printf("Usage: saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config [income] [expenses]]\n");
+	printf("Usage: saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config [income] [expenses]] [number]\n");
 	printf("--help|-h: Displays the help text.\n");
 	printf("--edit-config|-c: Edit config manually using neovim, vim or nano.\n");
 	printf("--edit|-e [day] [expense]: Edits the expenses for the specified day.\n");
 	printf("--add|-a [day] [expense]: Adds the specified expense to the existing expense for the specified day.\n");
+	printf("--config|-cfg ... : Use another config.\n");
 	printf("--new-config|--rebuild-config [income] [expenses] (optionally): rebuilds config (for example, after starting next month). Be careful!\n");
+	printf("Without any flag you can write just a number like `saldo 1000' and this will work like `saldo --add [today] 1000'\n");
 	printf("If the configuration file is not found, the program will generate one in ~/.local/share/saldo_config.txt.\nThe configuration file contains the income, fixed expenses and expenses for each day of the month.\nThe program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month).\nThe daily budget and the saldo for each day will be displayed.\n");
 	exit(0);
 }
@@ -21,7 +23,17 @@ int main(int argc, char *argv[]) {
 	double income, fixedExpenses, totalBudget, dailyBudget, expenses, saldo; 
 	int month, day, daysInMonth;
 	char configFilePath[256];
-	sprintf(configFilePath, "%s/.local/share/saldo_config.txt", getenv("HOME"));
+	// Check if --config or -cfg flag is passed
+	if (argc > 1 && (strcmp(argv[1], "--config") == 0 || strcmp(argv[1], "-cfg") == 0)) {
+		sprintf(configFilePath, "%s", argv[2]);
+		// Shift argv two positions
+		memmove(argv, argv + 2, (argc - 2) * sizeof(char*));
+
+}
+	}
+	else {
+		sprintf(configFilePath, "%s/.local/share/saldo_config.txt", getenv("HOME"));
+	}
 	FILE *configFile = fopen(configFilePath, "r+"); // Read and write
 
 	// Get the current month
@@ -30,6 +42,7 @@ int main(int argc, char *argv[]) {
 	time(&rawtime);
 	timeinfo = localtime(&rawtime);
 	month = timeinfo->tm_mon + 1;
+	int today = timeinfo->tm_mday;	
 
 	// Get the number of days in the month
 	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
@@ -153,6 +166,37 @@ int main(int argc, char *argv[]) {
 		exit(0);
 	}
 
+	if (argc == 2) {
+	double expense = atof(argv[1]);
+
+	// Create a new file
+	char newConfigFilePath[256];
+	sprintf(newConfigFilePath, "%s/.local/share/saldotmpconfig.txt", getenv("HOME"));
+	FILE *newConfigFile = fopen(newConfigFilePath, "w");
+
+	// Find the line
+	char line[100];
+	while (fgets(line, sizeof(line), configFile) != NULL) {
+		if (atoi(line) == today) {
+			double existingExpense;
+			sscanf(line, "%d %lf", &today, &existingExpense);
+			expense += existingExpense;
+			fprintf(newConfigFile, "%d %.2lf\n", today, expense);
+		} else {
+			fprintf(newConfigFile, "%s", line);
+		}
+	}
+
+	// Close the files
+	fclose(configFile);
+	fclose(newConfigFile);
+
+	// Rename the new file
+	rename(newConfigFilePath, configFilePath);
+	exit(0);
+
+}
+
 	// Check if the configuration file exists and generate it if not
 	if (!configFile) {
 		printf("No config file found. Generating one now...\nDon't forget to edit it\n");
@@ -164,6 +208,7 @@ int main(int argc, char *argv[]) {
 		fclose(configFile);
 		exit(0);
 	}
+
 	// Read income and fixed expenses from the configuration file
 	fscanf(configFile, "income %lf\nfixed_expenses %lf\n", &income, &fixedExpenses);
 	totalBudget = income - fixedExpenses;

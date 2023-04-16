@@ -1,39 +1,42 @@
-.TH SALDO 1 "Apr 16 2023"
-
+.TH saldo 1 "April 2023" "saldo 0.1"
 .SH NAME
-
 saldo \- calculate the current saldo for a given month
-
 .SH SYNOPSIS
-
-saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config]
-
+\fBsaldo\fR [\fB\-\-config\fR|\fB\-cfg\fR] [\fB\-\-help\fR|\fB\-h\fR] [\fB\-\-edit\-config\fR|\fB\-c\fR] [\fB\-\-edit\fR|\fB\-e\fR \fIday\fR \fIexpense\fR] [\fB\-\-add\fR|\fB\-a\fR \fIday\fR \fIexpense\fR] [\fB\-\-new\-config\fR|\fB\-\-rebuild\-config\fR \fIincome\fR \fIexpenses\fR] [\fInumber\fR]
 .SH DESCRIPTION
+\fBsaldo\fR is a program that calculates the current saldo for a given month by reading expenses from a configuration file.
 
-This program calculates the current saldo for a given month by reading expenses from a configuration file. The configuration file (stored in ~/.local/share/saldo_config.txt) contains the income, fixed expenses and expenses for each day of the month. The program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month). The daily budget and the saldo for each day will be displayed.
+The \fB\-\-help\fR or \fB\-h\fR option displays the help text.
 
-.SH OPTIONS
+The \fB\-\-config\fR or \fB\-cfg\fR option may define user config.
 
-.TP
-\fB\-\-help\fP, \fB\-h\fP
-Display the help text.
+The \fB\-\-edit\-config\fR or \fB\-c\fR option opens the configuration file in neovim, vim or nano for manual editing.
 
-.TP
-\fB\-\-edit\-config\fP, \fB\-c\fP
-Edit config manually using neovim, vim or nano.
+The \fB\-\-edit\fR or \fB\-e\fR option edits the expenses for the specified day.
 
-.TP
-\fB\-\-edit\fP, \fB\-e\fP [day] [expense]
-Edits the expenses for the specified day.
+The \fB\-\-add\fR or \fB\-a\fR option adds the specified expense to the existing expense for the specified day.
 
-.TP
-\fB\-\-add\fP, \fB\-a\fP [day] [expense]
-Adds the specified expense to the existing expense for the specified day.
+The \fB\-\-new\-config\fR or \fB\-\-rebuild\-config\fR option rebuilds the configuration file (for example, after starting a new month). You can also define \fIincome\fR and \fIfixed_expense\fR as parameters after this flag. Be careful! This command deletes previous config file.
 
-.TP
-\fB\-\-new\-config\fP, \fB\-\-rebuild\-config\fP
-Rebuilds config (for example, after starting next month). Be careful!
+Without any flag, you can write just a number like \fBsaldo 1000\fR and this will work like \fBsaldo \-\-add \fI[today]\fR \fI1000\fR.
 
-.SH SEE ALSO
+If the configuration file is not found, the program will generate one in \fB~/.local/share/saldo_config.txt\fR. The configuration file contains the income, fixed expenses and expenses for each day of the month. The program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month). The daily budget and the saldo for each day will be displayed.
+.SH EXAMPLE
+.nf
+To calculate the saldo for the current month:
+.ft B
+    saldo
+.ft R
 
-nano(1), vim(1), neovim(1)
+To build config conf.txt in current directory with income 35000 and fixed expenses 12000:
+.ft B
+    saldo -cfg conf.txt --new-config 35000 12000
+.ft R
+
+To add 400 to the existing expense for day 4:
+.ft B
+    saldo --add 4 400
+.ft R
+
+.SH AUTHOR
+saldo was written by asakura42
