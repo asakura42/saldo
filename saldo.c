@@ -11,7 +11,7 @@ void print_help_text() {
 	printf("--help|-h: Displays the help text.\n");
 	printf("--edit|-e [day] [expense]: Edits the expenses for the specified day.\n");
 	printf("--add|-a [day] [expense]: Adds the specified expense to the existing expense for the specified day.\n");
-	printf("--new-config|--rebuild-config: rebuilds config (for example, after starting next month). Be careful!\n")
+	printf("--new-config|--rebuild-config: rebuilds config (for example, after starting next month). Be careful!\n");
 	printf("If the configuration file is not found, the program will generate one in ~/.local/share/saldo_config.txt.\nThe configuration file contains the income, fixed expenses and expenses for each day of the month.\nThe program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month).\nThe daily budget and the saldo for each day will be displayed.\n");
 	exit(0);
 }
