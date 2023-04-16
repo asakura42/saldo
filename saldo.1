@@ -1,0 +1,39 @@
+.TH SALDO "Apr 16 2023"
+
+.SH NAME
+
+saldo \- calculate the current saldo for a given month
+
+.SH SYNOPSIS
+
+saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config]
+
+.SH DESCRIPTION
+
+This program calculates the current saldo for a given month by reading expenses from a configuration file. The configuration file (stored in ~/.local/share/saldo_config.txt) contains the income, fixed expenses and expenses for each day of the month. The program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month). The daily budget and the saldo for each day will be displayed.
+
+.SH OPTIONS
+
+.TP
+\fB\-\-help\fP, \fB\-h\fP
+Display the help text.
+
+.TP
+\fB\-\-edit\-config\fP, \fB\-c\fP
+Edit config manually using neovim, vim or nano.
+
+.TP
+\fB\-\-edit\fP, \fB\-e\fP [day] [expense]
+Edits the expenses for the specified day.
+
+.TP
+\fB\-\-add\fP, \fB\-a\fP [day] [expense]
+Adds the specified expense to the existing expense for the specified day.
+
+.TP
+\fB\-\-new\-config\fP, \fB\-\-rebuild\-config\fP
+Rebuilds config (for example, after starting next month). Be careful!
+
+.SH SEE ALSO
+
+nano(1), vim(1), neovim(1)

@@ -7,7 +7,7 @@
 // Function to print help text when --help option is detected
 void print_help_text() {
 	printf("This program calculates the current saldo for a given month by reading expenses from a configuration file.\n");
-	printf("Usage: saldo [--help|-h] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config]\n");
+	printf("Usage: saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] [expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config]\n");
 	printf("--help|-h: Displays the help text.\n");
 	printf("--edit-config|-c: Edit config manually using neovim, vim or nano.\n");
 	printf("--edit|-e [day] [expense]: Edits the expenses for the specified day.\n");
