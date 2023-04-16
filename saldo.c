@@ -230,39 +230,40 @@ int main(int argc, char *argv[])
 
 	if (argc == 2)
 	{
-		if (isdigit(argv[1][0])) {
-		double expense = atof(argv[1]);
-
-		// Create a new file
-		char newConfigFilePath[256];
-		sprintf(newConfigFilePath, "%s/.local/share/saldotmpconfig.txt",
-				getenv("HOME"));
-		FILE *newConfigFile = fopen(newConfigFilePath, "w");
-
-		// Find the line
-		char line[100];
-		while (fgets(line, sizeof(line), configFile) != NULL)
+		if (isdigit(argv[1][0]))
 		{
-			if (atoi(line) == today)
-			{
-				double existingExpense;
-				sscanf(line, "%d %lf", &today, &existingExpense);
-				expense += existingExpense;
-				fprintf(newConfigFile, "%d %.2lf\n", today, expense);
-			}
-			else
-			{
-				fprintf(newConfigFile, "%s", line);
-			}
-		}
+			double expense = atof(argv[1]);
 
-		// Close the files
-		fclose(configFile);
-		fclose(newConfigFile);
+			// Create a new file
+			char newConfigFilePath[256];
+			sprintf(newConfigFilePath, "%s/.local/share/saldotmpconfig.txt",
+					getenv("HOME"));
+			FILE *newConfigFile = fopen(newConfigFilePath, "w");
 
-		// Rename the new file
-		rename(newConfigFilePath, configFilePath);
-		exit(0);
+			// Find the line
+			char line[100];
+			while (fgets(line, sizeof(line), configFile) != NULL)
+			{
+				if (atoi(line) == today)
+				{
+					double existingExpense;
+					sscanf(line, "%d %lf", &today, &existingExpense);
+					expense += existingExpense;
+					fprintf(newConfigFile, "%d %.2lf\n", today, expense);
+				}
+				else
+				{
+					fprintf(newConfigFile, "%s", line);
+				}
+			}
+
+			// Close the files
+			fclose(configFile);
+			fclose(newConfigFile);
+
+			// Rename the new file
+			rename(newConfigFilePath, configFilePath);
+			exit(0);
 		}
 	}
 
@@ -321,7 +322,6 @@ int main(int argc, char *argv[])
 				{
 					printf("%02d %s : %.0lf ¤ (tomorrow)\n", day, monthName, saldo);
 				}
-				
 			}
 		}
 
