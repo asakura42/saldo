@@ -271,16 +271,17 @@ int main(int argc, char *argv[]) {
       //%.2lf\033[0;31m\n", day, saldo);
       //		}
       if (day == today) {
-        printf("%02d %s\t%.2lf *\n", day, monthName, saldo);
+        printf("%02d %s\t%.0lf ¤ *\n", day, monthName, saldo);
         //			printf("\033[0m");
       } else {
-        printf("%02d %s\t%.2lf\n", day, monthName, saldo);
+        printf("%02d %s\t%.0lf ¤\n", day, monthName, saldo);
       }
     }
   }
   // Display the daily budget
-  printf("\nYour average daily budget for this month is %.2lf\n", dailyBudget);
-  printf("You spent %.2lf this month.\n", totalBudget - saldo);
+  printf("\nYour average daily budget for this month is %.0lf\n", dailyBudget);
+  printf("You spent %.0lf this month.\n", totalBudget - saldo);
+  printf("You income is %.0lf this month and fixed expenses are %.0lf.\n", income, fixedExpenses);
   fclose(configFile);
   return 0;
 }
