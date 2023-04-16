@@ -1,5 +1,5 @@
 all:
-	gcc -o saldo saldo.c
+	cc -o saldo saldo.c
 
 clean:
 	rm -f saldo
