@@ -9,21 +9,24 @@ void print_help_text()
 {
 	printf("This program calculates the current saldo for a given month by "
 		   "reading expenses from a configuration file.\n");
-	printf("Usage: saldo [--help|-h] [--edit-config|-c] [--edit|-e [day] "
+	printf("Usage: saldo [--help|-h] [--config|-cfg] [--edit-config|-c] [--edit|-e [day] "
 		   "[expense]] [--add|-a [day] [expense]] [--new-config|--rebuild-config "
-		   "[income] [expenses]] [number]\n");
-	printf("--help|-h: Displays the help text.\n");
-	printf("--edit-config|-c: Edit config manually using neovim, vim or nano.\n");
-	printf(
-		"--edit|-e [day] [expense]: Edits the expenses for the specified day.\n");
-	printf("--add|-a [day] [expense]: Adds the specified expense to the existing "
-		   "expense for the specified day.\n");
-	printf("--config|-cfg ... : Use another config.\n");
-	printf("--new-config|--rebuild-config [income] [expenses] (optionally): "
-		   "rebuilds config (for example, after starting next month). Be "
+		   "[income] [expenses]] [number]\n\n");
+	printf("--help, -h:\n");
+	printf("    Displays the help text.\n");
+	printf("--config, -cfg ... :\n");
+	printf("    Use another config instead of ~/.local/share/... one.\n");
+	printf("--edit-config, -c:\n");
+	printf("    Edit config manually using neovim, vim or nano.\n");
+	printf("--edit, -e [day] [expense]:\n");
+	printf("    Edits the expenses for the specified day.\n");
+	printf("--add, -a [day] [expense]:\n");
+	printf("    Adds the specified expense to the existing expense for the specified day.\n");
+	printf("--new-config, --rebuild-config [income] [expenses] (optionally):\n");
+	printf("    rebuilds config (for example, after starting next month). Be "
 		   "careful!\n");
 	printf("Without any flag you can write just a number like `saldo 1000' and "
-		   "this will work like `saldo --add [today] 1000'\n");
+		   "this will work like `saldo --add [today] 1000'\n\n");
 	printf(
 		"If the configuration file is not found, the program will generate one "
 		"in ~/.local/share/saldo_config.txt.\nThe configuration file contains "
