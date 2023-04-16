@@ -2,6 +2,6 @@ all:
 	cc -o saldo saldo.c
 
 clean:
-	rm -f saldo
+	rm saldo
 
 .PHONY: clean
