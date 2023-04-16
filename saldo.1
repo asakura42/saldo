@@ -21,6 +21,9 @@ The \fB\-\-new\-config\fR or \fB\-\-rebuild\-config\fR option rebuilds the confi
 Without any flag, you can write just a number like \fBsaldo 1000\fR and this will work like \fBsaldo \-\-add \fI[today]\fR \fI1000\fR.
 
 If the configuration file is not found, the program will generate one in \fB~/.local/share/saldo_config.txt\fR. The configuration file contains the income, fixed expenses and expenses for each day of the month. The program will then calculate the saldo for each day based on the daily budget (income - fixed expenses / days in the month). The daily budget and the saldo for each day will be displayed.
+
+You can add comments in the config file after income an expense and betweed days. Just start line with \fI'#'\fR.
+
 .SH EXAMPLE
 .nf
 To calculate the saldo for the current month:
