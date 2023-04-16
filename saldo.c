@@ -86,7 +86,8 @@ int main(int argc, char *argv[])
 	{
 		printf("Rebuilding config...\nDon't forget to edit it\n");
 		FILE *configFile = fopen(configFilePath, "w");
-		fprintf(configFile, "income %s\nfixed_expenses %s\n", argv[2], argv[3]);
+		fprintf(configFile, "income %s\n", argv[2]);
+		fprintf(configFile, "fixed_expenses %s\n", argv[3]);
 		for (int i = 1; i <= daysInMonth; i++)
 		{
 			fprintf(configFile, "%d 0\n", i);
@@ -100,7 +101,8 @@ int main(int argc, char *argv[])
 	{
 		printf("Rebuilding config...\nDon't forget to edit it\n");
 		FILE *configFile = fopen(configFilePath, "w");
-		fprintf(configFile, "income 0\nfixed_expenses 0\n");
+		fprintf(configFile, "income 0\n");
+		fprintf(configFile, "fixed_expenses 0\n");
 		for (int i = 1; i <= daysInMonth; i++)
 		{
 			fprintf(configFile, "%d 0\n", i);
@@ -256,7 +258,8 @@ int main(int argc, char *argv[])
 		printf("No config file found. Generating one now...\nDon't forget to edit "
 			   "it\n");
 		FILE *configFile = fopen(configFilePath, "w");
-		fprintf(configFile, "income 0\nfixed_expenses 0\n");
+		fprintf(configFile, "income 0\n");
+		fprintf(configFile, "fixed_expenses 0\n");
 		for (int i = 1; i <= daysInMonth; i++)
 		{
 			fprintf(configFile, "%d 0\n", i);
@@ -266,8 +269,9 @@ int main(int argc, char *argv[])
 	}
 
 	// Read income and fixed expenses from the configuration file
-	fscanf(configFile, "income %lf\nfixed_expenses %lf\n", &income,
-		   &fixedExpenses);
+
+	fscanf(configFile, "income %lf\n", &income);
+	fscanf(configFile, "fixed_expenses %lf\n", &fixedExpenses);
 	totalBudget = income - fixedExpenses;
 	dailyBudget = totalBudget / daysInMonth;
 	saldo = 0;
@@ -275,6 +279,7 @@ int main(int argc, char *argv[])
 	// Calculate the saldo for each day and print the result
 	for (day = 1; day <= daysInMonth; day++)
 	{
+
 		if (fscanf(configFile, "%d %lf\n", &day, &expenses) != EOF)
 		{
 			saldo += dailyBudget - expenses;
