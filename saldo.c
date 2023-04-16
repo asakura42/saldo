@@ -36,7 +36,7 @@ void print_help_text() {
       "budget (income - fixed expenses / days in the month).\nThe daily budget "
       "and the saldo for each day will be displayed.\nYou can add comments in "
       "the config file: after income an expense and betweed days.\nJust start "
-      "line with '#'.");
+      "line with '#'.\n");
   exit(0);
 }
 
@@ -281,7 +281,7 @@ int main(int argc, char *argv[]) {
   // Display the daily budget
   printf("\nYour average daily budget for this month is %.0lf\n", dailyBudget);
   printf("You spent %.0lf this month.\n", totalBudget - saldo);
-  printf("You income is %.0lf this month and fixed expenses are %.0lf.\n", income, fixedExpenses);
+  printf("You income are %.0lf this month and fixed expenses are %.0lf.\n", income, fixedExpenses);
   fclose(configFile);
   return 0;
 }
