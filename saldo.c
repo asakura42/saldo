@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
 	timeinfo = localtime(&rawtime);
 	month = timeinfo->tm_mon + 1;
 	int today = timeinfo->tm_mday;
+	int yesterday = timeinfo->tm_mday - 1;
 
 	// Get the number of days in the month
 	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 ||
@@ -116,15 +117,15 @@ int main(int argc, char *argv[])
 			sprintf(command, "nvim %s", configFilePath);
 			system(command);
 		}
-		// Check if vim exists
-		else if (system("which vim") == 0)
+		// Check if nano exists
+		else if (system("which nano") == 0)
 		{
 			char command[256];
 			sprintf(command, "vim %s", configFilePath);
 			system(command);
 		}
-		// Check if nano exists
-		else if (system("which nano") == 0)
+		// Check if vi exists
+		else if (system("which vi") == 0)
 		{
 			char command[256];
 			sprintf(command, "nano %s", configFilePath);
@@ -279,7 +280,19 @@ int main(int argc, char *argv[])
 		{
 			saldo += dailyBudget;
 		}
-		printf("Your saldo for day %d is %.2lf\n", day, saldo);
+		//		if (day == yesterday)
+		//		{
+		//			printf("On the %d you may spend %.2lf\033[0;31m\n", day, saldo);
+		//		}
+		if (day == today)
+		{
+			printf("On the %d you may spend %.2lf *\n", day, saldo);
+			//			printf("\033[0m");
+		}
+		else
+		{
+			printf("On the %d you may spend %.2lf\n", day, saldo);
+		}
 	}
 	// Display the daily budget
 	printf("Your average daily budget for this month is %.2lf\n", dailyBudget);
