@@ -316,11 +316,11 @@ int main(int argc, char *argv[])
 				}
 				if (day == today)
 				{
-					printf("%02d %s : %.0lf ¤\n", day, monthName, saldo);
+					printf("%02d %s : %.0lf ¤ *\n", day, monthName, saldo);
 				}
 				if (day == tomorrow)
 				{
-					printf("%02d %s : %.0lf ¤ (tomorrow)\n", day, monthName, saldo);
+					printf("%02d %s : %.0lf ¤\n", day, monthName, saldo);
 				}
 			}
 		}

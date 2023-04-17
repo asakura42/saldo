@@ -2,11 +2,13 @@
 .SH NAME
 saldo \- calculate the current saldo for a given month
 .SH SYNOPSIS
-\fBsaldo\fR [\fB\-\-config\fR|\fB\-cfg\fR \fIconfig_file\fR] [\fB\-\-help\fR|\fB\-h\fR] [\fB\-\-edit\-config\fR|\fB\-c\fR] [\fB\-\-edit\fR|\fB\-e\fR \fIday\fR \fIexpense\fR] [\fB\-\-add\fR|\fB\-a\fR \fIday\fR \fIexpense\fR] [\fB\-\-new\-config\fR|\fB\-\-rebuild\-config\fR \fIincome\fR \fIexpenses\fR] [\fInumber\fR]
+\fBsaldo\fR [\fB\-\-config\fR|\fB\-cfg\fR \fIconfig_file\fR] [\fB\-\-today\fR|\fB\-t\fR] [\fB\-\-help\fR|\fB\-h\fR] [\fB\-\-edit\-config\fR|\fB\-c\fR] [\fB\-\-edit\fR|\fB\-e\fR \fIday\fR \fIexpense\fR] [\fB\-\-add\fR|\fB\-a\fR \fIday\fR \fIexpense\fR] [\fB\-\-new\-config\fR|\fB\-\-rebuild\-config\fR \fIincome\fR \fIexpenses\fR] [\fInumber\fR]
 .SH DESCRIPTION
 \fBsaldo\fR is a program that calculates the current saldo for a given month by reading expenses from a configuration file.
 
 The \fB\-\-help\fR or \fB\-h\fR option displays the help text.
+
+The \fB\-\-today\fR or \fB\-t\fR option displays only today and tomorrow values.
 
 The \fB\-\-config\fR or \fB\-cfg\fR option may define user config.
 
