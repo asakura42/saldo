@@ -16,4 +16,4 @@ uninstall:
 help:
 	@echo "Available targets: all, man, clean, install, uninstall, help"
 
-.PHONY: clean
+.PHONY: all man clean install uninstall help
