@@ -5,7 +5,7 @@ man:
 	groff -man ./saldo.1 -Tpdf > saldo.pdf
 
 clean:
-	rm saldo 2>/dev/null
+	rm saldo
 
 install: all
 	cp saldo /usr/local/bin
