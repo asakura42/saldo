@@ -5,9 +5,9 @@ man:
 	groff -man ./saldo.1 -Tpdf > saldo.pdf
 
 clean:
-	rm saldo
+	rm saldo 2>/dev/null
 
-install:
+install: all
 	cp saldo /usr/local/bin
 
 uninstall:
