@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 	timeinfo = localtime(&rawtime);
 	month = timeinfo->tm_mon + 1;
 	int today = timeinfo->tm_mday;
-	int yesterday = timeinfo->tm_mday - 1;
+	// int yesterday = timeinfo->tm_mday - 1;
 	int tomorrow = timeinfo->tm_mday + 1;
 	char monthName[20];
 	strftime(monthName, 20, "%B", timeinfo);
@@ -130,21 +130,21 @@ int main(int argc, char *argv[])
 		// Check if neovim exists
 		if (system("which nvim") == 0)
 		{
-			char command[256];
+			char command[512];
 			sprintf(command, "nvim %s", configFilePath);
 			system(command);
 		}
 		// Check if nano exists
 		else if (system("which nano") == 0)
 		{
-			char command[256];
+			char command[512];
 			sprintf(command, "vim %s", configFilePath);
 			system(command);
 		}
 		// Check if vi exists
 		else if (system("which vi") == 0)
 		{
-			char command[256];
+			char command[512];
 			sprintf(command, "nano %s", configFilePath);
 			system(command);
 		}
@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 
 	if (argc == 2)
 	{
-		if (isdigit(argv[1][0]) || argv[1][0] == '-' && isdigit(argv[1][1]))
+		if (isdigit(argv[1][0]) || (argv[1][0] == '-' && isdigit(argv[1][1])))
 		{
 			double expense = atof(argv[1]);
 
