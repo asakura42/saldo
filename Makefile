@@ -7,4 +7,13 @@ man:
 clean:
 	rm saldo
 
+install:
+	cp saldo /usr/local/bin
+
+uninstall:
+	rm /usr/local/bin/saldo
+	
+help:
+	@echo "Available targets: all, man, clean, install, uninstall, help"
+
 .PHONY: clean
