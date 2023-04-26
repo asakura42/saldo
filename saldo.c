@@ -77,12 +77,11 @@ int main(int argc, char *argv[])
 	time_t nextMonthTime;
 	struct tm *nextMonthInfo;
 	nextMonthTime = mktime(timeinfo);
-	nextMonthTime += (time_t) (60*60*24*tomorrow);
+	nextMonthTime += (time_t)(60 * 60 * 24 * tomorrow);
 	nextMonthInfo = localtime(&nextMonthTime);
 	// int nextMonth = nextMonthInfo->tm_mon + 1;
 	char nextMonthName[20];
 	strftime(nextMonthName, 20, "%B", nextMonthInfo);
-
 
 	// Get the number of days in the month
 	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 ||
@@ -383,16 +382,6 @@ int main(int argc, char *argv[])
 				{
 					printf("%02d %s\t%.0lf ¤\n", day, monthName, saldo);
 				}
-
-
-
-
-
-
-
-
-
-
 			}
 		}
 		// Display the daily budget
@@ -400,8 +389,8 @@ int main(int argc, char *argv[])
 		printf("You spent %.0lf this month.\n", totalBudget - saldo);
 		printf("You income are %.0lf this month and fixed expenses are %.0lf.\n", income, fixedExpenses);
 
-				// Check if today is one of the salary days
-		if ( salaryDay1 == 0 || salaryDay2 == 0)
+		// Check if today is one of the salary days
+		if (salaryDay1 == 0 || salaryDay2 == 0)
 		{
 			;
 		}
@@ -412,17 +401,17 @@ int main(int argc, char *argv[])
 		else
 		{
 			// Calculate the number of days until the next salary day
-			if ( day < salaryDay1 )
+			if (day < salaryDay1)
 			{
 				printf("Next salary will be %dth of %s\n", salaryDay1, monthName);
 			}
-			else if ( day > salaryDay2 )			
+			else if (day > salaryDay2)
 			{
 				printf("Next salary will be %dth of %s\n", salaryDay1, nextMonthName);
 				printf("%s\n", nextMonthName);
 			}
 			// Print the next salary day
-			else if ( day < salaryDay2 && day > salaryDay1 )
+			else if (day < salaryDay2 && day > salaryDay1)
 			{
 				printf("Next salary will be %dth of %s\n", salaryDay2, monthName);
 			}
