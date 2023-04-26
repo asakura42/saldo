@@ -47,7 +47,7 @@ void print_help_text()
 int main(int argc, char *argv[])
 {
 	double income, fixedExpenses, totalBudget, dailyBudget, expenses, saldo;
-	int month, day, daysInMonth;
+	int month, day, daysInMonth, salaryDay1, salaryDay2;
 	char configFilePath[256];
 	// Check if --config or -cfg flag is passed
 	if (argc > 1 &&
@@ -74,6 +74,15 @@ int main(int argc, char *argv[])
 	int tomorrow = timeinfo->tm_mday + 1;
 	char monthName[20];
 	strftime(monthName, 20, "%B", timeinfo);
+	time_t nextMonthTime;
+	struct tm *nextMonthInfo;
+	nextMonthTime = mktime(timeinfo);
+	nextMonthTime += (time_t) (60*60*24*tomorrow);
+	nextMonthInfo = localtime(&nextMonthTime);
+	// int nextMonth = nextMonthInfo->tm_mon + 1;
+	char nextMonthName[20];
+	strftime(nextMonthName, 20, "%B", nextMonthInfo);
+
 
 	// Get the number of days in the month
 	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 ||
@@ -94,10 +103,11 @@ int main(int argc, char *argv[])
 	if (argc > 3 && (strcmp(argv[1], "--new-config") == 0 ||
 					 strcmp(argv[1], "--rebuild-config") == 0))
 	{
-		printf("Rebuilding config...\nDon't forget to edit it\n");
+		printf("Rebuilding config...\nDon't forget to edit it and add salary days if you have them\n");
 		FILE *configFile = fopen(configFilePath, "w");
 		fprintf(configFile, "income %s\n", argv[2]);
 		fprintf(configFile, "fixed_expenses %s\n", argv[3]);
+		fprintf(configFile, "salary_days 0,0\n");
 		fprintf(configFile, "# \n");
 		for (int i = 1; i <= daysInMonth; i++)
 		{
@@ -110,10 +120,11 @@ int main(int argc, char *argv[])
 	if (argc > 1 && (strcmp(argv[1], "--new-config") == 0 ||
 					 strcmp(argv[1], "--rebuild-config") == 0))
 	{
-		printf("Rebuilding config...\nDon't forget to edit it\n");
+		printf("Rebuilding config...\nDon't forget to edit it and add salary days if you have them\n");
 		FILE *configFile = fopen(configFilePath, "w");
 		fprintf(configFile, "income 0\n");
 		fprintf(configFile, "fixed_expenses 0\n");
+		fprintf(configFile, "salary_days 0,0\n");
 		fprintf(configFile, "# \n");
 		for (int i = 1; i <= daysInMonth; i++)
 		{
@@ -275,6 +286,7 @@ int main(int argc, char *argv[])
 		FILE *configFile = fopen(configFilePath, "w");
 		fprintf(configFile, "income 0\n");
 		fprintf(configFile, "fixed_expenses 0\n");
+		fprintf(configFile, "salary_days 0,0\n");
 		fprintf(configFile, "# \n");
 		for (int i = 1; i <= daysInMonth; i++)
 		{
@@ -334,6 +346,7 @@ int main(int argc, char *argv[])
 		// Read income and fixed expenses from the configuration file
 		fscanf(configFile, "income %lf\n", &income);
 		fscanf(configFile, "fixed_expenses %lf\n", &fixedExpenses);
+		fscanf(configFile, "salary_days %d,%d\n", &salaryDay1, &salaryDay2);
 		totalBudget = income - fixedExpenses;
 		dailyBudget = totalBudget / daysInMonth;
 		saldo = 0;
@@ -370,12 +383,51 @@ int main(int argc, char *argv[])
 				{
 					printf("%02d %s\t%.0lf ¤\n", day, monthName, saldo);
 				}
+
+
+
+
+
+
+
+
+
+
 			}
 		}
 		// Display the daily budget
 		printf("\nYour average daily budget for this month is %.0lf\n", dailyBudget);
 		printf("You spent %.0lf this month.\n", totalBudget - saldo);
 		printf("You income are %.0lf this month and fixed expenses are %.0lf.\n", income, fixedExpenses);
+
+				// Check if today is one of the salary days
+		if ( salaryDay1 == 0 || salaryDay2 == 0)
+		{
+			;
+		}
+		else if (day == salaryDay1 || day == salaryDay2)
+		{
+			printf("Salary day is today!");
+		}
+		else
+		{
+			// Calculate the number of days until the next salary day
+			if ( day < salaryDay1 )
+			{
+				printf("Next salary will be %dth of %s\n", salaryDay1, monthName);
+			}
+			else if ( day > salaryDay2 )			
+			{
+				printf("Next salary will be %dth of %s\n", salaryDay1, nextMonthName);
+				printf("%s\n", nextMonthName);
+			}
+			// Print the next salary day
+			else if ( day < salaryDay2 && day > salaryDay1 )
+			{
+				printf("Next salary will be %dth of %s\n", salaryDay2, monthName);
+			}
+		}
+
 		fclose(configFile);
 		return 0;
 	}
