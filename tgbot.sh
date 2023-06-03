@@ -1,5 +1,14 @@
 #!/bin/sh
+background='false'
+while getopts 'b' flag; do
+  case "${flag}" in
+    b) background='true' ;;
+    *) echo "Usage: \$0 [-b]" >&2
+       exit 1 ;;
+  esac
+done
 
+main_loop() {
 while true; do
     python - << EOF
 import os
@@ -46,3 +55,10 @@ bot.polling()
 EOF
     sleep 10
 done
+}
+
+if [ "$background" = 'true' ]; then
+  nohup sh -c 'main_loop' &
+else
+  main_loop
+fi
