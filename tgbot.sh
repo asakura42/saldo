@@ -3,7 +3,7 @@ background='false'
 while getopts 'b' flag; do
   case "${flag}" in
     b) background='true' ;;
-    *) echo "Usage: \$0 [-b]" >&2
+    *) echo "Usage: $0 [-b]" >&2
        exit 1 ;;
   esac
 done
