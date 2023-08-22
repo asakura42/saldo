@@ -1,12 +1,12 @@
-# Program Documentation: Saldo Calculation
+# Saldo
 
 ## Table of Contents
 1. [Introduction](https://github.com/asakura42/saldo/edit/master/README.md#1-introduction)
-2. [Usage]
-3. [Command Line Options]
-4. [Configuration File]
-5. [Implementation Details]
-6. [Examples]
+2. [Usage](https://github.com/asakura42/saldo/blob/master/README.md#2-usage)
+3. [Command Line Options](https://github.com/asakura42/saldo/blob/master/README.md#3-command-line-options)
+4. [Configuration File](https://github.com/asakura42/saldo/blob/master/README.md#4-configuration-file)
+5. [Implementation Details](https://github.com/asakura42/saldo/blob/master/README.md#5-implementation-details)
+6. [Examples](https://github.com/asakura42/saldo/blob/master/README.md#6-examples)
 
 ## 1. Introduction
 The Saldo Calculation program is designed to calculate the current saldo for a given month based on the expenses recorded in a configuration file. It provides a simple and convenient way to manage and track your expenses throughout the month. The program takes into account the user's income, fixed expenses, and daily expenses to calculate the saldo for each day of the month.
